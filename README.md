@@ -22,6 +22,14 @@ instantly and transparently, and giving examiners real psychometric insight.
 > 🔴 **Live demo:** open `index.html` (works fully offline, one click) — or host it free on GitHub Pages and put the link here: `https://tejuas98.github.io/maya-exana`.
 > ⚡ **Verify it's real:** `git clone https://github.com/tejuas98/maya-exana.git && cd maya-exana && node tests/engine.test.js` → **65/65 passing in < 1s, zero install**.
 
+## Prototype Screenshots
+
+### Interactive Demo
+![Candidate View](docs/images/demo_student.png)
+
+### Presentation Deck
+![Pitch Deck](docs/images/demo_slides.png)
+
 ## How it works (10-second overview)
 
 ```mermaid
