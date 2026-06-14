@@ -349,10 +349,11 @@
   <button id="prev">‹</button>
   <span class="counter" id="counter">1 / 15</span>
   <button id="next">›</button>
-  <button id="pdf" title="Save the whole deck as a PDF" style="width:auto;padding:0 14px;font-size:13px;font-weight:700">Save PDF</button>
+  <button id="img-dl" title="Save all slides as 8K PNGs" style="width:auto;padding:0 14px;font-size:13px;font-weight:700">Save 8K Images</button>
 </div>
-<div class="hint">← → or Space to navigate · F fullscreen · "Save PDF" for a portable copy</div>
+<div class="hint">← → or Space to navigate · F fullscreen · "Save 8K Images" for high-res copies</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 /* ===== inlined evaluator ===== */
 /*
@@ -1176,7 +1177,29 @@ function show(n){
 }
 document.getElementById('next').onclick = function(){ show(idx+1); };
 document.getElementById('prev').onclick = function(){ show(idx-1); };
-document.getElementById('pdf').onclick = function(){ window.print(); };
+document.getElementById('img-dl').onclick = async function(){
+  var btn = this;
+  btn.innerText = 'Saving...';
+  btn.disabled = true;
+  var originalIdx = idx;
+  for(var i=0; i<slides.length; i++){
+    show(i);
+    await new Promise(r => setTimeout(r, 150)); // let layout settle
+    var canvas = await html2canvas(slides[i], {
+      scale: 8,
+      backgroundColor: '#F4F6FB',
+      logging: false
+    });
+    var link = document.createElement('a');
+    link.download = 'Maya_Exana_Slide_' + (i+1) + '.png';
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
+    await new Promise(r => setTimeout(r, 400)); // prevent browser block
+  }
+  show(originalIdx);
+  btn.innerText = 'Save 8K Images';
+  btn.disabled = false;
+};
 document.addEventListener('keydown', function(e){
   if(e.key==='ArrowRight'||e.key===' ') { show(idx+1); e.preventDefault(); }
   else if(e.key==='ArrowLeft') show(idx-1);
