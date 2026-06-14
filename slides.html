@@ -823,10 +823,10 @@ const TEMPLATES = {
       const px = ox + base * 14, py = oy - height * 10;
       const svg =
         `<svg viewBox="0 0 ${W} ${H}" width="220" height="150" xmlns="http://www.w3.org/2000/svg">` +
-        `<polygon points="${ox},${oy} ${px},${oy} ${ox},${py}" fill="#1d2c57" stroke="#5b8cff" stroke-width="2"/>` +
-        `<rect x="${ox}" y="${oy - 12}" width="12" height="12" fill="none" stroke="#9db0d8" stroke-width="1"/>` +
-        `<text x="${(ox + px) / 2}" y="${oy + 16}" fill="#9db0d8" font-size="12" text-anchor="middle">base = ${base}</text>` +
-        `<text x="${ox - 6}" y="${(oy + py) / 2}" fill="#9db0d8" font-size="12" text-anchor="end">h = ${height}</text>` +
+        `<polygon points="${ox},${oy} ${px},${oy} ${ox},${py}" fill="rgba(37,65,178,0.05)" stroke="#2541B2" stroke-width="2"/>` +
+        `<rect x="${ox}" y="${oy - 12}" width="12" height="12" fill="none" stroke="#475569" stroke-width="1"/>` +
+        `<text x="${(ox + px) / 2}" y="${oy + 16}" fill="#475569" font-size="12" text-anchor="middle">base = ${base}</text>` +
+        `<text x="${ox - 6}" y="${(oy + py) / 2}" fill="#475569" font-size="12" text-anchor="end">h = ${height}</text>` +
         `</svg>`;
       return {
         prompt: `Find the area of this right triangle (base = ${base}, height = ${height}).`,
