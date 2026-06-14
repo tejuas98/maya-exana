@@ -349,11 +349,12 @@
   <button id="prev">‹</button>
   <span class="counter" id="counter">1 / 15</span>
   <button id="next">›</button>
-  <button id="img-dl" title="Save all slides as 8K PNGs" style="width:auto;padding:0 14px;font-size:13px;font-weight:700">Save 8K Images</button>
+  <button id="img-dl" title="Save slides as a high-res PDF" style="width:auto;padding:0 14px;font-size:13px;font-weight:700">Save High-Res PDF</button>
 </div>
-<div class="hint">← → or Space to navigate · F fullscreen · "Save 8K Images" for high-res copies</div>
+<div class="hint">← → or Space to navigate · F fullscreen · "Save High-Res PDF" for a portable copy</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 /* ===== inlined evaluator ===== */
 /*
@@ -1179,25 +1180,46 @@ document.getElementById('next').onclick = function(){ show(idx+1); };
 document.getElementById('prev').onclick = function(){ show(idx-1); };
 document.getElementById('img-dl').onclick = async function(){
   var btn = this;
-  btn.innerText = 'Saving...';
+  btn.innerText = 'Building PDF...';
   btn.disabled = true;
   var originalIdx = idx;
+  
+  // Clean up slide styles for perfect rectangular capture
+  var style = document.createElement('style');
+  style.innerHTML = '.slide{border-radius:0!important;box-shadow:none!important;border:none!important;animation:none!important;transform:none!important;background:var(--panel)!important;}';
+  document.head.appendChild(style);
+
+  var pdf = new window.jspdf.jsPDF({
+    orientation: 'landscape',
+    unit: 'px',
+    format: [960, 620]
+  });
+
   for(var i=0; i<slides.length; i++){
     show(i);
+    btn.innerText = 'Capturing ' + (i+1) + '/' + slides.length + '...';
     await new Promise(r => setTimeout(r, 150)); // let layout settle
+    
     var canvas = await html2canvas(slides[i], {
-      scale: 8,
+      scale: 4, // 4x scale (3840x2480) provides excellent PDF quality without crashing
       backgroundColor: '#F4F6FB',
       logging: false
     });
-    var link = document.createElement('a');
-    link.download = 'Maya_Exana_Slide_' + (i+1) + '.png';
-    link.href = canvas.toDataURL('image/png', 1.0);
-    link.click();
-    await new Promise(r => setTimeout(r, 400)); // prevent browser block
+    
+    var imgData = canvas.toDataURL('image/png', 1.0);
+    if(i > 0) pdf.addPage([960, 620], 'landscape');
+    pdf.addImage(imgData, 'PNG', 0, 0, 960, 620);
+    
+    await new Promise(r => setTimeout(r, 50)); // prevent browser lock
   }
+  
+  btn.innerText = 'Saving...';
+  pdf.save('Maya_Exana_Presentation.pdf');
+  
+  // Restore state
+  document.head.removeChild(style);
   show(originalIdx);
-  btn.innerText = 'Save 8K Images';
+  btn.innerText = 'Save High-Res PDF';
   btn.disabled = false;
 };
 document.addEventListener('keydown', function(e){
