@@ -6,16 +6,16 @@
 <title>Maya-Exana — FAR AWAY 2026 Pitch Deck</title>
 <style>
   :root{
-    --bg:#0a0e1a; --panel:#111a30; --panel2:#172242; --ink:#eef3ff; --mut:#9db0d8;
-    --acc:#5b8cff; --acc2:#7aa2ff; --good:#33d69f; --warn:#ffb454; --bad:#ff6b6b; --line:#24315a;
+    --bg:#F4F6FB; --panel:#FFFFFF; --panel2:#F8FAFC; --ink:#111827; --mut:#475569;
+    --acc:#2541B2; --acc2:#0B1F3A; --good:#0E9F6E; --warn:#E8740C; --bad:#DC2626; --line:#D8DEEA;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{background:#05070f;color:var(--ink);
+  body{background:#E2E8F0;color:var(--ink);
     font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;overflow:hidden}
   .stage{height:100vh;width:100vw;display:flex;align-items:center;justify-content:center;position:relative}
   .slide{display:none;width:min(960px,92vw);height:min(620px,88vh);
-    background:radial-gradient(900px 460px at 78% -14%, #1a2b58 0%, var(--bg) 60%);
+    background:radial-gradient(900px 460px at 78% -14%, #E0E7FF 0%, var(--bg) 60%);
     border:1px solid var(--line);border-radius:20px;padding:46px 52px;overflow:auto;
     box-shadow:0 30px 80px rgba(0,0,0,.5)}
   .slide.active{display:block;animation:fade .35s ease}
@@ -44,14 +44,14 @@
   .stat{font-size:54px;font-weight:800;color:var(--acc);line-height:1}
   .statrow{display:flex;gap:36px;flex-wrap:wrap;margin:18px 0}
   .statrow .s{font-size:13px;color:var(--mut)}
-  .mono{font-family:ui-monospace,monospace;background:#0a1426;border:1px solid var(--line);
+  .mono{font-family:ui-monospace,monospace;background:var(--panel2);border:1px solid var(--line);
     border-radius:12px;padding:16px 18px;font-size:12.5px;color:var(--mut);line-height:1.6;white-space:pre;overflow:auto}
   .hl{color:var(--good)} .hlb{color:var(--acc2)} .hlr{color:var(--bad)}
   /* clean architecture flow (replaces ASCII art) */
   .flow{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0}
-  .fnode{background:#13203f;border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-align:center;width:100%;max-width:560px;font-size:14px}
-  .fnode.in{border-color:#3a4d80}
-  .fnode.core{border-color:var(--acc);background:#16264f}
+  .fnode{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-align:center;width:100%;max-width:560px;font-size:14px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+  .fnode.in{border-color:var(--mut)}
+  .fnode.core{border-color:var(--acc);background:rgba(37,65,178,0.05)}
   .fnode.out{max-width:none;flex:1;font-size:13px}
   .fnode .ft{font-size:10px;letter-spacing:1.2px;color:var(--acc2);font-weight:700;margin-bottom:4px}
   .fsub{font-size:11px;color:var(--mut)}
@@ -62,7 +62,7 @@
   th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
   th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
   .pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
-  .pill.good{background:#0f3329;color:var(--good)} .pill.bad{background:#3a1620;color:var(--bad)}
+  .pill.good{background:#DEF7EC;color:var(--good)} .pill.bad{background:#FDE8E8;color:var(--bad)}
   .demo-note{margin-top:16px;font-size:13px;color:var(--mut);background:var(--panel2);
     border:1px dashed var(--line);border-radius:10px;padding:11px 14px}
   .demo-note b{color:var(--ink)}
@@ -77,11 +77,11 @@
   .logo{font-weight:800;font-size:24px;letter-spacing:.5px}
   .logo span{color:var(--acc)}
   .footer-brand{position:absolute;bottom:18px;right:26px;color:var(--mut);font-size:11px;opacity:.7}
-  .vidbadge{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:#16264f;
+  .vidbadge{display:inline-flex;align-items:center;gap:8px;margin-top:14px;background:rgba(37,65,178,0.05);
     border:1px solid var(--acc);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;color:var(--ink)}
   .vidbadge .play{color:var(--acc);font-size:15px}
   .vidbadge .url{font-family:ui-monospace,monospace;color:var(--acc2);font-size:12.5px;word-break:break-all}
-  .vidbox{display:flex;gap:18px;align-items:center;margin-top:16px;background:#13203f;
+  .vidbox{display:flex;gap:18px;align-items:center;margin-top:16px;background:var(--panel2);
     border:1px solid var(--line);border-radius:14px;padding:16px 18px}
   .vidbox .qr{width:104px;height:104px;border-radius:8px;background:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:10px;color:#555;text-align:center;padding:6px}
   .vidbox .vtxt{font-size:14px} .vidbox .vtxt b{color:var(--acc2)}
@@ -94,7 +94,7 @@
      This is the guaranteed-portable fallback to the live HTML deck. */
   @media print{
     @page{ size:1280px 720px; margin:0; }
-    html,body{background:#05070f !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
+    html,body{background:var(--bg) !important;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
     .nav,.hint,.progress{display:none !important}
     .stage{display:block;height:auto;width:auto}
     .slide{display:block !important;position:relative;width:1280px;height:720px;margin:0;
