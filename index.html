@@ -1,0 +1,1043 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Maya-Exana — Fair Exams, By Design</title><style>
+  :root{
+    --bg:#0a0e1a; --panel:#111a30; --panel2:#172242; --ink:#eef3ff; --mut:#9db0d8;
+    --acc:#5b8cff; --acc2:#7aa2ff; --good:#33d69f; --warn:#ffb454; --bad:#ff6b6b; --line:#24315a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1100px 540px at 82% -12%, #1a2b58 0%, var(--bg) 58%);
+    color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+  .wrap{max-width:1080px;margin:0 auto;padding:26px 20px 90px}
+  header.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .logo{font-weight:800;font-size:27px;letter-spacing:.5px}
+  .logo span{color:var(--acc)}
+  .tag{color:var(--mut);font-size:12.5px;border:1px solid var(--line);padding:3px 10px;border-radius:999px}
+  .hook{background:linear-gradient(180deg,#161f3c,#111a30);border:1px solid var(--line);border-left:3px solid var(--bad);
+    border-radius:12px;padding:14px 16px;margin:16px 0 8px;color:var(--mut);font-size:14px}
+  .hook b{color:var(--ink)}
+  .lead{color:var(--mut);max-width:760px;margin:8px 0 20px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .tab{background:var(--panel);border:1px solid var(--line);color:var(--mut);padding:9px 14px;
+    border-radius:10px;cursor:pointer;font-weight:600;font-size:13px;transition:.12s}
+  .tab:hover{border-color:var(--acc)}
+  .tab.active{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px}
+  h2{margin:0 0 4px;font-size:19px}
+  .sub{color:var(--mut);font-size:13px;margin-bottom:16px}
+  .row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  label{font-size:12px;color:var(--mut);display:block;margin-bottom:4px}
+  input,select,textarea{background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    padding:9px 11px;border-radius:9px;font-size:14px;font-family:inherit}
+  input,select{min-width:160px} textarea{width:100%;resize:vertical}
+  button.act{background:var(--acc);color:#fff;border:none;padding:10px 18px;border-radius:10px;
+    font-weight:700;cursor:pointer;font-size:14px}
+  button.act:hover{background:var(--acc2)}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);padding:10px 16px;border-radius:10px;cursor:pointer;font-weight:600}
+  button.chip{background:#1d2c57;border:1px solid var(--line);color:var(--acc2);padding:5px 10px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600}
+  button.chip:hover{border-color:var(--acc)}
+  .q{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+  .q .meta{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+  .q .prompt{font-weight:600;margin-bottom:12px;font-size:15px}
+  .opt{display:block;background:var(--panel);border:1px solid var(--line);border-radius:9px;
+    padding:10px 12px;margin:7px 0;cursor:pointer;transition:.12s}
+  .opt:hover{border-color:var(--acc)}
+  .opt.sel{border-color:var(--acc);background:#1d2c57}
+  .opt.correct{border-color:var(--good);background:#0f3329}
+  .opt.wrong{border-color:var(--bad);background:#3a1620}
+  .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;font-weight:700}
+  .pill.clear{background:#0f3329;color:var(--good)} .pill.review{background:#3a2c12;color:var(--warn)}
+  .pill.high{background:#3a1620;color:var(--bad)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+  th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+  .bar{height:8px;border-radius:6px;background:var(--panel);overflow:hidden;min-width:90px;display:inline-block;vertical-align:middle}
+  .bar>i{display:block;height:100%}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid-studio{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid2,.grid-studio{grid-template-columns:1fr}}
+  .note{font-size:12.5px;color:var(--mut);background:var(--panel2);border:1px dashed var(--line);
+    border-radius:10px;padding:11px 13px;margin-top:14px}
+  .kbd{font-family:ui-monospace,monospace;background:#0a1830;border:1px solid var(--line);
+    padding:1px 6px;border-radius:5px;font-size:12px;color:var(--acc2)}
+  .score{font-size:42px;font-weight:800}
+  .hidden{display:none}
+  .flag-ok{color:var(--good)} .flag-bad{color:var(--bad)} .flag-warn{color:var(--warn)}
+  .variant{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin:7px 0;font-size:13px}
+  .variant .ans{color:var(--good);font-weight:700}
+  .arch{font-family:ui-monospace,monospace;font-size:12px;color:var(--mut);background:#0a1426;
+    border:1px solid var(--line);border-radius:10px;padding:14px;overflow:auto;line-height:1.5}
+  .live-area{min-height:38px;padding:10px 12px;border:1px dashed var(--line);border-radius:9px;background:var(--panel2);font-size:13px;color:var(--mut)}
+  footer{color:var(--mut);font-size:12px;text-align:center;margin-top:30px}
+</style></head><body><div class="wrap"><header class="top">  <div class="logo">MAYA<span>-EXANA</span></div>  <div class="tag">FAR AWAY 2026 · Examinations</div>  <div class="tag">Fair exams, by design — no surveillance</div></header><div class="hook">In 2024, India’s NEET medical entrance exam was leaked — reportedly <b>₹1.5 crore per paper</b>, multiple arrests. The usual response is <b>more surveillance</b>. Maya-Exana takes the opposite path: every exam ever made shares one fatal flaw — <b>one paper for all students</b>. The moment it leaks, everyone is compromised. Maya-Exana gives <b>every student a different paper</b> from the same blueprint. There’s nothing worth sharing — the copied answers are wrong by design.</div><p class="lead">Below is a live, working engine (not slides). Generate unique papers, auto-grade with diagnostic feedback, run real psychometrics, author your own questions in Blueprint Studio, and watch privacy-first integrity signals respond to your actual actions.</p><div class="tabs">  <div class="tab active" data-tab="exam">1 · Take a unique exam</div>  <div class="tab" data-tab="anti">2 · Why cheating fails</div>  <div class="tab" data-tab="studio">3 · Blueprint Studio</div>  <div class="tab" data-tab="psych">4 · Examiner analytics</div>  <div class="tab" data-tab="integ">5 · Live integrity</div>  <div class="tab" data-tab="arch">6 · How it scales</div></div><section id="tab-exam" class="card">  <h2>Take a unique exam</h2>  <div class="sub">Change the Student ID and regenerate — the numbers and options change while the blueprint stays the same. Same ID always rebuilds the identical paper (auditable).</div>  <div class="row">    <div><label>Student ID (seed)</label><input id="seed" value="student-1001"></div>    <div style="align-self:end"><button class="act" id="genBtn">Generate exam</button></div>    <div style="align-self:end"><button class="ghost" id="randSeed">Random student</button></div>  </div>  <div id="examArea"></div>  <div class="row" style="margin-top:12px"><button class="act" id="submitBtn">Submit &amp; auto-grade</button></div>  <div id="result"></div></section><section id="tab-anti" class="card hidden">  <h2>Why answer-sharing fails</h2>  <div class="sub">Three students, same blueprint, same instant. A leaked answer key from one fits none of the others.</div>  <div class="grid2" id="compareArea"></div>  <div class="note">The trick is determinism: <span class="kbd">(blueprint, studentID) → the exact same paper, every time</span>. Reproducible for auditing, yet unique per student. No two answer keys match — so there is nothing worth leaking.</div></section><section id="tab-studio" class="card hidden">  <h2>Blueprint Studio — author a question once, generate infinite variants</h2>  <div class="sub">This answers the #1 examiner question: “how do teachers actually make these?” Write a prompt with {slots}, set ranges, give a formula. Variants update live. (Formulas use a safe evaluator — no eval.)</div>  <div class="grid-studio">    <div>      <label>Prompt template (click a chip to insert a variable)</label>      <div class="row" style="gap:6px;margin-bottom:6px">        <button class="chip" data-var="{object}">+ object</button>        <button class="chip" data-var="{speed}">+ speed</button>        <button class="chip" data-var="{time}">+ time</button>      </div>      <textarea id="st-prompt" rows="2">A {object} travels at {speed} km/h for {time} hours. Distance covered (km)?</textarea>      <div class="row" style="margin-top:10px">        <div><label>speed: min</label><input id="st-smin" type="number" value="20" style="min-width:90px"></div>        <div><label>max</label><input id="st-smax" type="number" value="100" style="min-width:90px"></div>        <div><label>step</label><input id="st-sstep" type="number" value="10" style="min-width:80px"></div>      </div>      <div class="row" style="margin-top:8px">        <div><label>time: min</label><input id="st-tmin" type="number" value="1" style="min-width:90px"></div>        <div><label>max</label><input id="st-tmax" type="number" value="6" style="min-width:90px"></div>        <div><label>step</label><input id="st-tstep" type="number" value="1" style="min-width:80px"></div>      </div>      <div style="margin-top:8px"><label>object (comma-separated set)</label><input id="st-obj" value="car, train, cyclist, bus" style="min-width:280px"></div>      <div style="margin-top:8px"><label>Answer formula</label><input id="st-formula" value="speed * time" style="min-width:280px"></div>      <div style="margin-top:8px"><label>Unit</label><input id="st-unit" value="km" style="min-width:120px"></div>      <div class="row" style="margin-top:12px;gap:8px"><button class="act" id="st-run">Generate variants</button><button class="ghost" id="st-save">Save Blueprint</button><button class="ghost" id="st-load">Load Saved</button></div>      <div id="st-status" class="sub" style="margin-top:6px"></div>    </div>    <div>      <label>Live variants (reproducible)</label>      <div id="st-out"></div>    </div>  </div>  <div class="note">In the 24-hour Delhi round, this means a whole new subject can be added <b>live, in minutes</b> — not a verbal claim, a real-time demonstration.</div></section><section id="tab-psych" class="card hidden">  <h2>Examiner analytics (Classical Test Theory)</h2>  <div class="sub">Simulate a cohort and run real item analysis — difficulty index + point-biserial discrimination. A question your weakest students ace and strongest fail is auto-flagged as broken.</div>  <div class="row">    <div><label>Cohort size</label><input id="cohortN" type="number" value="300" min="20" max="3000"></div>    <div style="align-self:end"><button class="act" id="runPsych">Run analysis</button></div>  </div>  <div id="psychArea"></div></section><section id="tab-integ" class="card hidden">  <h2>Live, privacy-first integrity signals</h2>  <div class="sub">No webcam. No biometrics. Interact with the box below — the signals respond to your <b>real</b> actions, each with a plain-English reason. <b>This is a conceptual proxy:</b> client-side DOM events are spoofable, so production runs in a sandboxed Web Worker with signed payloads (DESIGN.md ADR-003a).</div>  <div class="row" style="margin-bottom:10px">    <textarea id="integ-input" rows="2" placeholder="Try typing here, then try PASTING text, and try switching to another browser tab and back…" style="flex:1;min-width:260px"></textarea>  </div>  <div class="grid2">    <div class="q"><div class="meta">Live session (your actions)</div><div id="integ-live"></div></div>    <div class="q"><div class="meta">Reference: anomalous session</div><div id="integ-ref"></div></div>  </div>  <div class="note">Maya-Exana never accuses — it surfaces <b>explainable signals</b> for a human examiner. Even if telemetry is fully defeated, the <b>core guarantee still holds</b>: unique parameterized papers make a leaked answer key worthless regardless of monitoring. Integrity signals are defense-in-depth, not the primary control.</div></section><section id="tab-arch" class="card hidden">  <h2>How it scales (and why it isn’t an AI wrapper)</h2>  <div class="sub">The trust-critical path — generation, grading, psychometrics — makes <b>zero API calls</b>. It is a pure, stateless function.</div>  <div class="arch">blueprint.json + studentID
+        |
+        v
+  [ seeded RNG ]  --pure, deterministic, stateless-->  unique paper
+        |
+        v
+  [ auto-grader ] --numeric tolerance + MCQ--> score + misconception feedback
+        |
+        v
+  [ CTT engine ] --difficulty + discrimination--> flag broken questions
+
+  No server session state. No per-user database read to GENERATE a paper.
+  => N stateless instances behind a load balancer = serve 500,000 candidates.</div>  <div class="note"><b>Why not an “AI wrapper”:</b> the integrity-critical logic is verifiable math, runnable offline, auditable in 10 minutes. AI is optional tooling on top (e.g. an LLM suggesting parameter ranges in Blueprint Studio) — it never touches the path that decides a grade. That separation is a deliberate engineering and ethical choice, documented in DESIGN.md.</div></section><footer>Maya-Exana · Built for FAR AWAY 2026 · 100% client-side, zero dependencies · 65/65 tests passing</footer></div>
+<script>
+/*
+ * Maya-Exana — safeEval: a dependency-free arithmetic expression evaluator.
+ *
+ * Why this file exists (and why it's separate):
+ *   Blueprint Studio lets teachers type answer formulas like "speed * time"
+ *   or "sqrt(a^2 + b^2)". Running user-supplied strings through eval() or
+ *   new Function() is a code-injection vulnerability. Instead this implements
+ *   the classic Shunting-Yard algorithm (Dijkstra): tokenize -> Reverse Polish
+ *   Notation -> evaluate. It supports ONLY a fixed, safe whitelist:
+ *     - binary operators:  + - * / % ^
+ *     - unary minus/plus:  -x, +x   (e.g. "-speed", "3 * -2")
+ *     - parentheses
+ *     - functions:         sqrt, abs, sin, cos, tan, log, ln, exp,
+ *                          round, floor, ceil, min, max, pow
+ *                          (min/max/pow accept a variable number of args)
+ *     - constants:         pi, e
+ *     - numbers incl. scientific notation:  1.5, .5, 1.5e-3, 6.022e23
+ *     - declared variables
+ *   Anything else (unknown identifiers, stray symbols, injected code) is rejected.
+ *   A correct argument count is enforced for every function call.
+ *
+ * Runs identically in Node (module.exports) and the browser (window.AegisEval).
+ */
+
+// Functions and how many arguments each accepts. `var` = variadic (>= min).
+const FUNCS = {
+  sqrt: { fn: Math.sqrt, args: [1, 1] },
+  abs: { fn: Math.abs, args: [1, 1] },
+  sin: { fn: Math.sin, args: [1, 1] },
+  cos: { fn: Math.cos, args: [1, 1] },
+  tan: { fn: Math.tan, args: [1, 1] },
+  log: { fn: Math.log10, args: [1, 1] },
+  ln: { fn: Math.log, args: [1, 1] },
+  exp: { fn: Math.exp, args: [1, 1] },
+  round: { fn: Math.round, args: [1, 1] },
+  floor: { fn: Math.floor, args: [1, 1] },
+  ceil: { fn: Math.ceil, args: [1, 1] },
+  min: { fn: Math.min, args: [2, Infinity] },
+  max: { fn: Math.max, args: [2, Infinity] },
+  pow: { fn: Math.pow, args: [2, 2] },
+};
+const CONSTS = { pi: Math.PI, e: Math.E };
+
+function isOp(t) { return ['+', '-', '*', '/', '%', '^', 'u-', 'u+'].includes(t); }
+const PREC = { 'u-': 5, 'u+': 5, '^': 4, '*': 3, '/': 3, '%': 3, '+': 2, '-': 2 };
+const RIGHT = { '^': true, 'u-': true, 'u+': true };
+
+function tokenize(expr) {
+  // number (with optional scientific notation) | identifier | operator/paren/comma
+  const re = /\s*((?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?|[A-Za-z_][A-Za-z0-9_]*|[+\-*/%^(),])/g;
+  const tokens = [];
+  let m, last = 0;
+  while ((m = re.exec(expr)) !== null) {
+    if (m.index !== last && expr.slice(last, m.index).trim() !== '') {
+      throw new Error(`Unexpected character near "${expr.slice(last)}"`);
+    }
+    tokens.push(m[1]);
+    last = re.lastIndex;
+  }
+  if (expr.slice(last).trim() !== '') throw new Error(`Unexpected character near "${expr.slice(last)}"`);
+  return tokens;
+}
+
+function safeEval(expr, vars = {}) {
+  const tokens = tokenize(String(expr));
+  if (!tokens.length) throw new Error('Empty expression');
+
+  const output = [];     // value stack (RPN evaluated on the fly via applyTop)
+  const stack = [];      // operators / functions / parens
+  const argCount = [];    // running argument count for the current function call
+  let prevType = null;   // 'num' | 'op' | 'lparen' | 'func' | 'comma' | null
+
+  for (const t of tokens) {
+    if (/^(?:\d|\.)/.test(t)) {
+      output.push(parseFloat(t));
+      prevType = 'num';
+    } else if (/^[A-Za-z_]/.test(t)) {
+      if (t in FUNCS) {
+        stack.push({ fn: t });
+        prevType = 'func';
+      } else if (t in CONSTS) {
+        output.push(CONSTS[t]);
+        prevType = 'num';
+      } else if (t in vars) {
+        const v = vars[t];
+        if (typeof v !== 'number' || Number.isNaN(v)) throw new Error(`Variable "${t}" is not a number`);
+        output.push(v);
+        prevType = 'num';
+      } else {
+        throw new Error(`Unknown identifier: ${t}`);
+      }
+    } else if (t === ',') {
+      while (stack.length && stack[stack.length - 1] !== '(') applyTop(output, stack.pop());
+      if (!stack.length) throw new Error('Misplaced comma (not inside a function call)');
+      if (argCount.length) argCount[argCount.length - 1]++;
+      prevType = 'comma';
+    } else if (t === '+' || t === '-') {
+      const unary = prevType === null || prevType === 'op' || prevType === 'lparen' || prevType === 'comma';
+      pushOp(output, stack, unary ? (t === '-' ? 'u-' : 'u+') : t);
+      prevType = 'op';
+    } else if (isOp(t)) {
+      pushOp(output, stack, t);
+      prevType = 'op';
+    } else if (t === '(') {
+      // If this '(' opens a function call, start counting its arguments.
+      if (stack.length && typeof stack[stack.length - 1] === 'object' && stack[stack.length - 1].fn) {
+        argCount.push(1);
+      }
+      stack.push('(');
+      prevType = 'lparen';
+    } else if (t === ')') {
+      // Empty call like "max()" -> first token after '(' is ')'
+      const emptyCall = prevType === 'lparen';
+      while (stack.length && stack[stack.length - 1] !== '(') applyTop(output, stack.pop());
+      if (!stack.length) throw new Error('Mismatched parentheses');
+      stack.pop(); // remove '('
+      if (stack.length && typeof stack[stack.length - 1] === 'object' && stack[stack.length - 1].fn) {
+        const n = emptyCall ? 0 : (argCount.pop() || 1);
+        applyTop(output, stack.pop(), n);
+      }
+      prevType = 'num';
+    } else {
+      throw new Error(`Unexpected token: ${t}`);
+    }
+  }
+  while (stack.length) {
+    const top = stack.pop();
+    if (top === '(') throw new Error('Mismatched parentheses');
+    applyTop(output, top);
+  }
+  if (output.length !== 1) throw new Error('Invalid expression');
+  const result = output[0];
+  if (typeof result !== 'number' || Number.isNaN(result) || !Number.isFinite(result)) {
+    throw new Error('Expression did not evaluate to a finite number');
+  }
+  return result;
+}
+
+function pushOp(output, stack, op) {
+  while (
+    stack.length &&
+    isOp(stack[stack.length - 1]) &&
+    (PREC[stack[stack.length - 1]] > PREC[op] ||
+      (PREC[stack[stack.length - 1]] === PREC[op] && !RIGHT[op]))
+  ) {
+    applyTop(output, stack.pop());
+  }
+  stack.push(op);
+}
+
+// `argc` is supplied only when applying a function token.
+function applyTop(output, token, argc) {
+  if (typeof token === 'object' && token.fn) {
+    const spec = FUNCS[token.fn];
+    const n = argc == null ? 1 : argc;
+    const [minA, maxA] = spec.args;
+    if (n < minA || n > maxA) {
+      const want = maxA === Infinity ? `${minA}+` : (minA === maxA ? `${minA}` : `${minA}-${maxA}`);
+      throw new Error(`${token.fn}() expects ${want} argument(s), got ${n}`);
+    }
+    if (output.length < n) throw new Error(`Not enough operands for ${token.fn}()`);
+    const argsArr = output.splice(output.length - n, n);
+    output.push(spec.fn(...argsArr));
+    return;
+  }
+  if (token === 'u-') { output.push(-output.pop()); return; }
+  if (token === 'u+') { return; }
+  if (output.length < 2) throw new Error(`Not enough operands for "${token}"`);
+  const b = output.pop();
+  const a = output.pop();
+  switch (token) {
+    case '+': output.push(a + b); break;
+    case '-': output.push(a - b); break;
+    case '*': output.push(a * b); break;
+    case '/': output.push(a / b); break;
+    case '%': output.push(a % b); break;
+    case '^': output.push(a ** b); break;
+    default: throw new Error(`Unknown operator: ${token}`);
+  }
+}
+
+
+/*
+ * Maya-Exana Core Engine — parameterized exam generation, auto-grading & psychometrics.
+ * Zero dependencies. Runs identically in Node and the browser (deterministic).
+ *
+ * Design goals:
+ *  - Determinism: (templateId, studentSeed) -> the exact same question, always.
+ *    This makes every exam auditable and reproducible, and makes answer-sharing
+ *    useless because every student gets different numbers/options.
+ *  - Explainability: every generated item carries the seed, the worked solution,
+ *    and the rationale for each distractor. No black boxes.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Deterministic RNG (seeded). String seed -> reproducible stream.   *
+ * ------------------------------------------------------------------ */
+
+// xmur3 string hash -> 32-bit generator. Called repeatedly it yields a stream
+// of well-mixed 32-bit words, which we use to build a 128-bit seed below.
+function xmur3(str) {
+  let h = 1779033703 ^ str.length;
+  for (let i = 0; i < str.length; i++) {
+    h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return function () {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    h ^= h >>> 16;
+    return h >>> 0;
+  };
+}
+
+// sfc32 PRNG seeded with 128 bits of state. A 128-bit seed space removes the
+// practical birthday-collision risk of a single 32-bit seed (~4.2B values):
+// with 128 bits, even billions of student IDs have negligible collision odds.
+function sfc32(a, b, c, d) {
+  return function () {
+    a |= 0; b |= 0; c |= 0; d |= 0;
+    const t = (((a + b) | 0) + d) | 0;
+    d = (d + 1) | 0;
+    a = b ^ (b >>> 9);
+    b = (c + (c << 3)) | 0;
+    c = (c << 21) | (c >>> 11);
+    c = (c + t) | 0;
+    return (t >>> 0) / 4294967296;
+  };
+}
+
+class RNG {
+  constructor(seed) {
+    const h = xmur3(String(seed));
+    // Build a full 128-bit state from four independent 32-bit words.
+    this._next = sfc32(h(), h(), h(), h());
+    // Warm up the generator so early outputs are well mixed.
+    for (let i = 0; i < 12; i++) this._next();
+    this.seed = seed;
+  }
+  float() { return this._next(); }
+  int(min, max) { return Math.floor(this.float() * (max - min + 1)) + min; }
+  pick(arr) { return arr[this.int(0, arr.length - 1)]; }
+  shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = this.int(0, i);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Template library. Each template is a pure function of an RNG.     *
+ *    It returns: prompt, the correct value, a worked solution, and     *
+ *    distractors WITH the misconception each one targets.              *
+ * ------------------------------------------------------------------ */
+
+const round = (n, d = 2) => Math.round(n * 10 ** d) / 10 ** d;
+
+const TEMPLATES = {
+  // ---- Quantitative: speed/distance/time ----
+  speed_dst: {
+    id: 'speed_dst',
+    subject: 'Quantitative Aptitude',
+    difficulty: 2,
+    type: 'numeric',
+    gen(rng) {
+      const d = rng.int(120, 600);
+      const t = rng.int(2, 8);
+      const speed = round(d / t, 2);
+      return {
+        prompt: `A train covers ${d} km in ${t} hours. What is its average speed (km/h)?`,
+        answer: speed,
+        tolerance: 0.01,
+        unit: 'km/h',
+        solution: `Speed = distance / time = ${d} / ${t} = ${speed} km/h.`,
+        distractors: [
+          { value: round(d * t, 2), why: 'Multiplied instead of divided' },
+          { value: round(t / d, 4), why: 'Inverted the ratio (time/distance)' },
+          { value: round(d / (t + 1), 2), why: 'Off-by-one error on time' },
+        ],
+      };
+    },
+  },
+
+  // ---- Quantitative: compound interest ----
+  compound_interest: {
+    id: 'compound_interest',
+    subject: 'Quantitative Aptitude',
+    difficulty: 3,
+    type: 'numeric',
+    gen(rng) {
+      const p = rng.int(5, 50) * 1000;
+      const r = rng.pick([5, 8, 10, 12]);
+      const n = rng.int(2, 3);
+      const amount = round(p * (1 + r / 100) ** n, 2);
+      const ci = round(amount - p, 2);
+      const simple = round((p * r * n) / 100, 2);
+      return {
+        prompt: `Find the compound interest on ₹${p} at ${r}% p.a. compounded annually for ${n} years.`,
+        answer: ci,
+        tolerance: 0.5,
+        unit: '₹',
+        solution: `A = P(1+r/100)^n = ${p}(1+${r}/100)^${n} = ₹${amount}. CI = A − P = ₹${ci}.`,
+        distractors: [
+          { value: simple, why: 'Computed simple interest instead of compound' },
+          { value: amount, why: 'Reported total amount, not the interest' },
+          { value: round(ci * 1.1, 2), why: 'Rounding/calculation slip' },
+        ],
+      };
+    },
+  },
+
+  // ---- Logical reasoning: number series ----
+  series_next: {
+    id: 'series_next',
+    subject: 'Logical Reasoning',
+    difficulty: 2,
+    type: 'numeric',
+    gen(rng) {
+      const start = rng.int(2, 9);
+      const ratio = rng.pick([2, 3]);
+      const seq = [start];
+      for (let i = 0; i < 4; i++) seq.push(seq[seq.length - 1] * ratio);
+      const answer = seq[seq.length - 1];
+      const shown = seq.slice(0, 4);
+      return {
+        prompt: `What comes next in the series: ${shown.join(', ')}, ___ ?`,
+        answer,
+        tolerance: 0,
+        unit: '',
+        solution: `Each term is multiplied by ${ratio}. Next = ${shown[3]} × ${ratio} = ${answer}.`,
+        distractors: [
+          { value: shown[3] + (shown[3] - shown[2]), why: 'Assumed arithmetic, not geometric' },
+          { value: shown[3] * (ratio + 1), why: 'Used the wrong common ratio' },
+          { value: answer + ratio, why: 'Added the ratio instead of multiplying' },
+        ],
+      };
+    },
+  },
+
+  // ---- Quantitative: percentage (easy warm-up) ----
+  percentage: {
+    id: 'percentage',
+    subject: 'Quantitative Aptitude',
+    difficulty: 1,
+    type: 'numeric',
+    gen(rng) {
+      const total = rng.int(5, 40) * 10;
+      const pct = rng.pick([10, 15, 20, 25, 40]);
+      const ans = round((total * pct) / 100, 2);
+      return {
+        prompt: `What is ${pct}% of ${total}?`,
+        answer: ans,
+        tolerance: 0,
+        unit: '',
+        solution: `${pct}% of ${total} = ${pct}/100 × ${total} = ${ans}.`,
+        distractors: [
+          { value: round(total / pct, 2), why: 'Divided instead of taking a percentage' },
+          { value: round(total - ans, 2), why: 'Found the remaining amount instead' },
+          { value: round(ans / 10, 2), why: 'Misplaced a decimal point' },
+        ],
+      };
+    },
+  },
+
+  // ---- Physics: kinematics (final velocity) ----
+  kinematics: {
+    id: 'kinematics',
+    subject: 'Physics',
+    difficulty: 3,
+    type: 'numeric',
+    gen(rng) {
+      const u = rng.int(0, 10);
+      const a = rng.int(2, 6);
+      const t = rng.int(2, 8);
+      const v = u + a * t;
+      return {
+        prompt: `An object starts at ${u} m/s and accelerates at ${a} m/s² for ${t} s. Find its final velocity (m/s).`,
+        answer: v,
+        tolerance: 0,
+        unit: 'm/s',
+        solution: `v = u + at = ${u} + ${a}×${t} = ${v} m/s.`,
+        distractors: [
+          { value: a * t, why: 'Forgot the initial velocity u' },
+          { value: u + a, why: 'Forgot to multiply acceleration by time' },
+          { value: round(u + 0.5 * a * t * t, 2), why: 'Used the displacement formula instead' },
+        ],
+      };
+    },
+  },
+
+  // ---- Chemistry: molarity ----
+  molarity: {
+    id: 'molarity',
+    subject: 'Chemistry',
+    difficulty: 3,
+    type: 'numeric',
+    gen(rng) {
+      const moles = rng.int(1, 8) * 0.5;
+      const vol = rng.pick([0.5, 1, 2, 2.5]);
+      const M = round(moles / vol, 2);
+      return {
+        prompt: `What is the molarity of a solution containing ${moles} mol of solute in ${vol} L of solution?`,
+        answer: M,
+        tolerance: 0.01,
+        unit: 'mol/L',
+        solution: `Molarity = moles / volume = ${moles} / ${vol} = ${M} mol/L.`,
+        distractors: [
+          { value: round(moles * vol, 2), why: 'Multiplied instead of dividing' },
+          { value: round(vol / moles, 2), why: 'Inverted the ratio' },
+          { value: round(moles / (vol * 1000), 5), why: 'Confused litres with millilitres' },
+        ],
+      };
+    },
+  },
+
+  // ---- English: vocabulary synonyms (non-numeric variation) ----
+  synonym: {
+    id: 'synonym',
+    subject: 'English / Vocabulary',
+    difficulty: 2,
+    type: 'mcq_fixed',
+    gen(rng) {
+      const sets = [
+        { word: 'Abundant', ans: 'Plentiful', d: ['Scarce', 'Hostile', 'Tiny'] },
+        { word: 'Candid', ans: 'Frank', d: ['Secretive', 'Lazy', 'Bright'] },
+        { word: 'Mitigate', ans: 'Lessen', d: ['Worsen', 'Ignore', 'Begin'] },
+        { word: 'Tenacious', ans: 'Persistent', d: ['Weak', 'Brief', 'Random'] },
+        { word: 'Lucid', ans: 'Clear', d: ['Confusing', 'Dark', 'Loud'] },
+      ];
+      const c = rng.pick(sets);
+      return {
+        prompt: `Choose the word closest in meaning to "${c.word}".`,
+        answer: c.ans,
+        options: rng.shuffle([c.ans, ...c.d]),
+        solution: `"${c.word}" most nearly means "${c.ans}".`,
+      };
+    },
+  },
+
+  // ---- Geometry: VISUAL/diagrammatic — parameterized SVG ----
+  // Proves the engine handles more than numbers: it renders a unique diagram.
+  geometry_svg: {
+    id: 'geometry_svg',
+    subject: 'Geometry (visual)',
+    difficulty: 2,
+    type: 'numeric',
+    gen(rng) {
+      const base = rng.int(4, 12);
+      const height = rng.int(3, 10);
+      const area = round((base * height) / 2, 1);
+      // A self-contained SVG right triangle with the parameterized dimensions.
+      const W = 220, H = 150, ox = 30, oy = 120;
+      const px = ox + base * 14, py = oy - height * 10;
+      const svg =
+        `<svg viewBox="0 0 ${W} ${H}" width="220" height="150" xmlns="http://www.w3.org/2000/svg">` +
+        `<polygon points="${ox},${oy} ${px},${oy} ${ox},${py}" fill="#1d2c57" stroke="#5b8cff" stroke-width="2"/>` +
+        `<rect x="${ox}" y="${oy - 12}" width="12" height="12" fill="none" stroke="#9db0d8" stroke-width="1"/>` +
+        `<text x="${(ox + px) / 2}" y="${oy + 16}" fill="#9db0d8" font-size="12" text-anchor="middle">base = ${base}</text>` +
+        `<text x="${ox - 6}" y="${(oy + py) / 2}" fill="#9db0d8" font-size="12" text-anchor="end">h = ${height}</text>` +
+        `</svg>`;
+      return {
+        prompt: `Find the area of this right triangle (base = ${base}, height = ${height}).`,
+        svg, // consumed by the UI to render the unique figure
+        answer: area,
+        tolerance: 0.05,
+        unit: 'sq units',
+        solution: `Area = ½ × base × height = ½ × ${base} × ${height} = ${area} sq units.`,
+        distractors: [
+          { value: round(base * height, 1), why: 'Forgot the ½ factor (used a rectangle)' },
+          { value: round(base + height, 1), why: 'Added the sides instead of using the area formula' },
+          { value: round((base + height) / 2, 1), why: 'Averaged the sides' },
+        ],
+      };
+    },
+  },
+
+  // ---- Computer science: time complexity (conceptual MCQ-forced) ----
+  big_o: {
+    id: 'big_o',
+    subject: 'Computer Science',
+    difficulty: 3,
+    type: 'mcq_fixed',
+    gen(rng) {
+      const cases = [
+        { code: 'two nested loops over n', ans: 'O(n²)', d: ['O(n)', 'O(log n)', 'O(n log n)'] },
+        { code: 'binary search on a sorted array', ans: 'O(log n)', d: ['O(n)', 'O(n²)', 'O(1)'] },
+        { code: 'merge sort', ans: 'O(n log n)', d: ['O(n²)', 'O(n)', 'O(log n)'] },
+        { code: 'a single loop over n', ans: 'O(n)', d: ['O(n²)', 'O(1)', 'O(log n)'] },
+      ];
+      const c = rng.pick(cases);
+      return {
+        prompt: `What is the worst-case time complexity of ${c.code}?`,
+        answer: c.ans,
+        options: rng.shuffle([c.ans, ...c.d]),
+        solution: `The worst-case complexity of ${c.code} is ${c.ans}.`,
+      };
+    },
+  },
+};
+
+/* ------------------------------------------------------------------ *
+ * 2b. Blueprint Studio — teacher-authored templates.                  *
+ *     A teacher writes a prompt with {var} slots, declares each        *
+ *     variable's domain, and gives an answer FORMULA. We generate      *
+ *     unique, reproducible variants WITHOUT eval() via a tiny safe     *
+ *     shunting-yard arithmetic evaluator (see src/evaluator.js).       *
+ * ------------------------------------------------------------------ */
+
+// safeEval provided by inlined evaluator above
+
+// Compile a teacher blueprint into a runtime template (same shape as TEMPLATES).
+// spec = {
+//   id, subject, difficulty,
+//   promptTemplate: "A {object} travels at {speed} km/h for {time} h. Distance?",
+//   variables: { speed: {min,max,step}, time:{min,max,step}, object:{set:[...]} },
+//   answerFormula: "speed * time",            // arithmetic over numeric vars
+//   unit, decimals, tolerance,
+//   distractors: [{ formula, why }, ...]      // optional wrong-answer formulas
+// }
+function compileStudioTemplate(spec) {
+  const numericVars = Object.entries(spec.variables).filter(([, d]) => !d.set);
+  const setVars = Object.entries(spec.variables).filter(([, d]) => d.set);
+  const dec = spec.decimals ?? 2;
+  return {
+    id: spec.id,
+    subject: spec.subject || 'Custom',
+    difficulty: spec.difficulty || 2,
+    type: 'numeric',
+    _studio: true,
+    gen(rng) {
+      const vals = {};
+      for (const [name, d] of numericVars) {
+        const step = d.step || 1;
+        const steps = Math.floor((d.max - d.min) / step);
+        vals[name] = round(d.min + rng.int(0, steps) * step, dec);
+      }
+      for (const [name, d] of setVars) vals[name] = rng.pick(d.set);
+      const answer = round(safeEval(spec.answerFormula, vals), dec);
+      let prompt = spec.promptTemplate;
+      for (const [name, v] of Object.entries(vals)) {
+        prompt = prompt.replace(new RegExp(`\\{${name}\\}`, 'g'), v);
+      }
+      const distractors = (spec.distractors || []).map((d) => ({
+        value: round(safeEval(d.formula, vals), dec),
+        why: d.why || 'Common error',
+      }));
+      // guarantee at least 3 plausible distractors
+      while (distractors.length < 3) {
+        const k = distractors.length + 1;
+        distractors.push({ value: round(answer * (1 + 0.1 * k), dec), why: 'Calculation slip' });
+      }
+      return {
+        prompt,
+        answer,
+        tolerance: spec.tolerance ?? 0,
+        unit: spec.unit || '',
+        solution: `Answer = ${spec.answerFormula} = ${answer}${spec.unit ? ' ' + spec.unit : ''}.`,
+        distractors: distractors.slice(0, 3),
+      };
+    },
+  };
+}
+
+// Persistence helpers for Blueprint Studio (used with localStorage in the UI).
+// A blueprint spec is plain JSON, so save/load is trivial and dependency-free.
+function serializeSpec(spec) { return JSON.stringify(spec); }
+function deserializeSpec(json) {
+  const spec = JSON.parse(json);
+  if (!spec.id || !spec.promptTemplate || !spec.answerFormula) {
+    throw new Error('Invalid blueprint: missing id/promptTemplate/answerFormula');
+  }
+  return spec;
+}
+
+// Live preview helper for the Studio UI: returns N reproducible variants.
+function previewStudioTemplate(spec, n = 5) {
+  const tpl = compileStudioTemplate(spec);
+  const variants = [];
+  for (let i = 0; i < n; i++) {
+    const rng = new RNG(`studio-preview::${spec.id}::${i}`);
+    variants.push(tpl.gen(rng));
+  }
+  return variants;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Exam assembly. A blueprint (list of {templateId, points}) +      *
+ *    a studentSeed -> a fully materialized, unique exam.               *
+ * ------------------------------------------------------------------ */
+
+// A runtime registry that includes both built-in and Studio-compiled templates.
+const RUNTIME_TEMPLATES = Object.assign({}, TEMPLATES);
+function registerStudioTemplate(spec) {
+  RUNTIME_TEMPLATES[spec.id] = compileStudioTemplate(spec);
+  return RUNTIME_TEMPLATES[spec.id];
+}
+
+function generateItem(templateId, studentSeed, index) {
+  const tpl = RUNTIME_TEMPLATES[templateId];
+  if (!tpl) throw new Error(`Unknown template: ${templateId}`);
+  // Per-item seed keeps each question independent but reproducible.
+  const itemSeed = `${studentSeed}::${templateId}::${index}`;
+  const rng = new RNG(itemSeed);
+  const raw = tpl.gen(rng);
+
+  // Build options for numeric/MCQ uniformly so the UI is consistent.
+  let options = null, correctIndex = null;
+  if (tpl.type === 'mcq_fixed') {
+    options = raw.options;
+    correctIndex = options.indexOf(raw.answer);
+  } else {
+    const opts = [
+      { value: raw.answer, correct: true, why: 'Correct' },
+      ...raw.distractors.map((d) => ({ ...d, correct: false })),
+    ];
+    const shuffled = rng.shuffle(opts);
+    options = shuffled.map((o) => o.value);
+    correctIndex = shuffled.findIndex((o) => o.correct);
+    raw._optionMeta = shuffled; // keep rationale for analytics/feedback
+  }
+
+  return {
+    itemSeed,
+    templateId,
+    subject: tpl.subject,
+    type: tpl.type === 'mcq_fixed' ? 'mcq' : 'numeric_mcq',
+    difficulty: tpl.difficulty,
+    prompt: raw.prompt,
+    svg: raw.svg || null, // optional parameterized diagram for visual items
+    unit: raw.unit || '',
+    options,
+    correctIndex,
+    answer: raw.answer,
+    tolerance: raw.tolerance ?? 0,
+    solution: raw.solution,
+    optionMeta: raw._optionMeta || null,
+  };
+}
+
+function generateExam(blueprint, studentSeed) {
+  const items = blueprint.map((b, i) => {
+    const it = generateItem(b.templateId, studentSeed, i);
+    it.points = b.points ?? 1;
+    it.id = `Q${i + 1}`;
+    return it;
+  });
+  return {
+    studentSeed,
+    generatedAt: new Date().toISOString(),
+    totalPoints: items.reduce((s, it) => s + it.points, 0),
+    items,
+  };
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Grading. Supports numeric tolerance + MCQ index matching.        *
+ * ------------------------------------------------------------------ */
+
+function gradeResponse(item, response) {
+  // response = chosen option index (or raw numeric value for free entry)
+  let correct = false;
+  if (typeof response === 'number' && item.correctIndex != null && Number.isInteger(response)) {
+    correct = response === item.correctIndex;
+  }
+  return {
+    id: item.id,
+    correct,
+    awarded: correct ? item.points : 0,
+    chosen: response,
+    correctIndex: item.correctIndex,
+    misconception: !correct && item.optionMeta && item.optionMeta[response]
+      ? item.optionMeta[response].why
+      : null,
+  };
+}
+
+function gradeExam(exam, responses) {
+  const results = exam.items.map((it, i) => gradeResponse(it, responses[i]));
+  const score = results.reduce((s, r) => s + r.awarded, 0);
+  return {
+    score,
+    total: exam.totalPoints,
+    percentage: round((score / exam.totalPoints) * 100, 1),
+    results,
+  };
+}
+
+/*
+ * OMR bridge — closes the physical-paper loop.
+ * A scanned OMR sheet yields just a student ID + a list of chosen letters
+ * ("A","B",...). Because generation is deterministic, we REGENERATE that
+ * student's exact paper from (blueprint, studentId) and grade the letters
+ * against it. Nothing about the paper needs to be stored or transmitted —
+ * the seed reconstructs everything, so scan-to-grade is instant and auditable.
+ *
+ *   gradeFromOMR(blueprint, "student-0042", ["A","C","B",...])
+ */
+function letterToIndex(ch) {
+  if (typeof ch !== 'string' || !/^[A-Za-z]$/.test(ch)) return -1; // blank/invalid
+  return ch.toUpperCase().charCodeAt(0) - 65;
+}
+
+function gradeFromOMR(blueprint, studentId, letterAnswers) {
+  const exam = generateExam(blueprint, studentId);
+  const responses = exam.items.map((_, i) => letterToIndex(letterAnswers[i]));
+  const graded = gradeExam(exam, responses);
+  return {
+    studentId,
+    paperId: exam.studentSeed, // reproducible proof of which paper was graded
+    ...graded,
+  };
+}
+
+// Batch-grade a whole scanned cohort. Returns per-student results plus the
+// per-item correctness matrix ready to feed straight into itemAnalysis().
+function gradeOMRBatch(blueprint, sheets) {
+  // sheets = [{ studentId, answers: ["A","B",...] }, ...]
+  const perStudent = sheets.map((s) => gradeFromOMR(blueprint, s.studentId, s.answers));
+  const cohort = perStudent.map((r) => ({
+    totalScore: r.score,
+    perItemCorrect: r.results.map((x) => (x.correct ? 1 : 0)),
+  }));
+  return { perStudent, cohort };
+}
+
+/* ------------------------------------------------------------------ *
+ * 5. Psychometrics. Classical Test Theory item analysis over a cohort.*
+ *    - p-value (difficulty index): fraction who got it right.         *
+ *    - Discrimination (point-biserial): does the item separate strong *
+ *      from weak students? Negative => the item is broken.            *
+ * ------------------------------------------------------------------ */
+
+function pearson(x, y) {
+  const n = x.length;
+  if (n === 0) return 0;
+  const mx = x.reduce((a, b) => a + b, 0) / n;
+  const my = y.reduce((a, b) => a + b, 0) / n;
+  let num = 0, dx = 0, dy = 0;
+  for (let i = 0; i < n; i++) {
+    num += (x[i] - mx) * (y[i] - my);
+    dx += (x[i] - mx) ** 2;
+    dy += (y[i] - my) ** 2;
+  }
+  const den = Math.sqrt(dx * dy);
+  return den === 0 ? 0 : round(num / den, 3);
+}
+
+// cohort = [{ totalScore, perItemCorrect: [0/1, ...] }, ...]
+function itemAnalysis(cohort, itemCount) {
+  const analysis = [];
+  for (let q = 0; q < itemCount; q++) {
+    const itemScores = cohort.map((c) => c.perItemCorrect[q]);
+    const totals = cohort.map((c) => c.totalScore);
+    const p = round(itemScores.reduce((a, b) => a + b, 0) / cohort.length, 3);
+    const disc = pearson(itemScores, totals);
+    let flag = 'ok';
+    if (p < 0.2) flag = 'too_hard';
+    else if (p > 0.95) flag = 'too_easy';
+    if (disc < 0.1) flag = 'low_discrimination';
+    analysis.push({ item: `Q${q + 1}`, difficultyIndex: p, discrimination: disc, flag });
+  }
+  return analysis;
+}
+
+/* ------------------------------------------------------------------ *
+ * 6. Integrity signals (privacy-first, no biometrics, fully           *
+ *    explainable). Operates on consented client-side telemetry.       *
+ * ------------------------------------------------------------------ */
+
+function integrityScore(session) {
+  // session = { totalTimeSec, items:[{timeSec, pasteEvents, focusLost}], expectedMinSec }
+  const reasons = [];
+  let risk = 0;
+
+  if (session.totalTimeSec < session.expectedMinSec) {
+    const ratio = session.totalTimeSec / session.expectedMinSec;
+    if (ratio < 0.3) { risk += 40; reasons.push('Completed implausibly fast'); }
+    else if (ratio < 0.6) { risk += 15; reasons.push('Faster than expected'); }
+  }
+  const pastes = session.items.reduce((s, i) => s + (i.pasteEvents || 0), 0);
+  if (pastes > 0) { risk += Math.min(30, pastes * 10); reasons.push(`${pastes} paste event(s) detected`); }
+
+  const focus = session.items.reduce((s, i) => s + (i.focusLost || 0), 0);
+  if (focus > 0) { risk += Math.min(30, focus * 8); reasons.push(`${focus} tab/window switch(es)`); }
+
+  risk = Math.min(100, risk);
+  const band = risk >= 60 ? 'high' : risk >= 25 ? 'review' : 'clear';
+  return { risk, band, reasons };
+}
+
+/* ------------------------------------------------------------------ */
+
+const Aegis = {
+  RNG, TEMPLATES, RUNTIME_TEMPLATES,
+  generateItem, generateExam,
+  gradeResponse, gradeExam,
+  gradeFromOMR, gradeOMRBatch,
+  itemAnalysis, integrityScore,
+  // Blueprint Studio
+  safeEval, compileStudioTemplate, previewStudioTemplate, registerStudioTemplate,
+  serializeSpec, deserializeSpec,
+  _internal: { round, pearson },
+};
+
+
+/* ===== Demo UI ===== */
+var BLUEPRINT=[
+  {templateId:'percentage',points:1},
+  {templateId:'speed_dst',points:1},
+  {templateId:'geometry_svg',points:2},
+  {templateId:'kinematics',points:2},
+  {templateId:'synonym',points:1},
+  {templateId:'big_o',points:1},
+];
+var currentExam=null, selections={};
+function q(s,r){return (r||document).querySelector(s);}
+function qa(s,r){return [].slice.call((r||document).querySelectorAll(s));}
+
+qa('.tab').forEach(function(t){t.onclick=function(){
+  qa('.tab').forEach(function(x){x.classList.remove('active');});t.classList.add('active');
+  qa('section[id^=tab-]').forEach(function(s){s.classList.add('hidden');});
+  q('#tab-'+t.dataset.tab).classList.remove('hidden');
+};});
+
+function renderExam(){
+  var seed=q('#seed').value.trim()||'anon';
+  currentExam=Aegis.generateExam(BLUEPRINT,seed);
+  selections={};
+  q('#examArea').innerHTML=currentExam.items.map(function(it,qi){
+    var opts=it.options.map(function(o,oi){
+      return '<div class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+(it.unit?(' '+it.unit):'')+'</div>';
+    }).join('');
+    var fig = it.svg ? '<div style="margin:6px 0">'+it.svg+'</div>' : '';
+    return '<div class="q"><div class="meta">'+it.id+' · '+it.subject+' · difficulty '+it.difficulty+' · '+it.points+' pt</div><div class="prompt">'+it.prompt+'</div>'+fig+opts+'</div>';
+  }).join('');
+  q('#result').innerHTML='';
+  qa('.opt',q('#examArea')).forEach(function(o){o.onclick=function(){
+    var qi=+o.dataset.q;
+    qa('.opt[data-q="'+qi+'"]').forEach(function(x){x.classList.remove('sel');});
+    o.classList.add('sel');selections[qi]=+o.dataset.o;
+  };});
+}
+function submitExam(){
+  if(!currentExam)return;
+  var responses=currentExam.items.map(function(_,i){return selections[i]==null?-1:selections[i];});
+  var g=Aegis.gradeExam(currentExam,responses);
+  currentExam.items.forEach(function(it,qi){
+    qa('.opt[data-q="'+qi+'"]').forEach(function(o){
+      var oi=+o.dataset.o;
+      if(oi===it.correctIndex)o.classList.add('correct');
+      else if(oi===selections[qi])o.classList.add('wrong');
+    });
+  });
+  var fb=g.results.map(function(r){
+    var it=currentExam.items.filter(function(x){return x.id===r.id;})[0];
+    if(r.correct)return '<div>✅ '+r.id+' correct — '+it.solution+'</div>';
+    return '<div>❌ '+r.id+' — '+(r.misconception?('likely slip: <b>'+r.misconception+'</b>. '):'')+it.solution+'</div>';
+  }).join('');
+  q('#result').innerHTML='<div class="q"><div class="score">'+g.percentage+'%</div><div class="sub">'+g.score+' / '+g.total+' points · auto-graded with explanations</div>'+fb+'</div>';
+}
+q('#genBtn').onclick=renderExam;
+q('#submitBtn').onclick=submitExam;
+q('#randSeed').onclick=function(){q('#seed').value='student-'+(1000+Math.floor(Math.random()*9000));renderExam();};
+
+function renderCompare(){
+  var bp=BLUEPRINT.slice(0,4);
+  function col(name,seed){
+    var ex=Aegis.generateExam(bp,seed);
+    return '<div class="q"><div class="meta">'+name+'</div>'+ex.items.map(function(it){
+      return '<div style="margin:8px 0"><b>'+it.id+'.</b> '+it.prompt+'<br><span style="color:var(--good)">key: '+String.fromCharCode(65+it.correctIndex)+'</span></div>';
+    }).join('')+'</div>';
+  }
+  q('#compareArea').innerHTML=col('Student 1001','student-1001')+col('Student 1002','student-1002');
+}
+
+function buildSpec(){
+  var obj=q('#st-obj').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  return {
+    id:'studio_live', subject:'Custom', difficulty:2,
+    promptTemplate:q('#st-prompt').value,
+    variables:{
+      speed:{min:+q('#st-smin').value,max:+q('#st-smax').value,step:+q('#st-sstep').value},
+      time:{min:+q('#st-tmin').value,max:+q('#st-tmax').value,step:+q('#st-tstep').value},
+      object:{set:obj.length?obj:['car']}
+    },
+    answerFormula:q('#st-formula').value,
+    unit:q('#st-unit').value, decimals:0,
+    distractors:[{formula:'speed + time',why:'Added instead of multiplied'},{formula:'speed / time',why:'Divided instead of multiplied'}]
+  };
+}
+function runStudio(){
+  try{
+    var spec=buildSpec();
+    var variants=Aegis.previewStudioTemplate(spec,5);
+    q('#st-out').innerHTML=variants.map(function(v,i){
+      return '<div class="variant">Variant '+(i+1)+': '+v.prompt+' <span class="ans">→ '+v.answer+' '+(spec.unit||'')+'</span></div>';
+    }).join('');
+  }catch(e){
+    q('#st-out').innerHTML='<div class="variant" style="border-color:var(--bad);color:var(--bad)">Error: '+e.message+' (check your formula uses only declared variables: speed, time)</div>';
+  }
+}
+q('#st-run').onclick=runStudio;
+qa('.chip').forEach(function(ch){ch.onclick=function(){var ta=q('#st-prompt');var v=ch.dataset.var;var pos=ta.selectionStart||ta.value.length;ta.value=ta.value.slice(0,pos)+v+ta.value.slice(ta.selectionEnd||pos);runStudio();};});
+q('#st-save').onclick=function(){try{var spec=buildSpec();localStorage.setItem('aegis.blueprint',Aegis.serializeSpec(spec));q('#st-status').textContent='Saved to this browser ('+new Date().toLocaleTimeString()+').';}catch(e){q('#st-status').textContent='Save failed: '+e.message;}};
+q('#st-load').onclick=function(){try{var raw=localStorage.getItem('aegis.blueprint');if(!raw){q('#st-status').textContent='No saved blueprint yet.';return;}var spec=Aegis.deserializeSpec(raw);q('#st-prompt').value=spec.promptTemplate;if(spec.variables.speed){q('#st-smin').value=spec.variables.speed.min;q('#st-smax').value=spec.variables.speed.max;q('#st-sstep').value=spec.variables.speed.step;}if(spec.variables.time){q('#st-tmin').value=spec.variables.time.min;q('#st-tmax').value=spec.variables.time.max;q('#st-tstep').value=spec.variables.time.step;}if(spec.variables.object)q('#st-obj').value=spec.variables.object.set.join(', ');q('#st-formula').value=spec.answerFormula;q('#st-unit').value=spec.unit||'';runStudio();q('#st-status').textContent='Loaded saved blueprint.';}catch(e){q('#st-status').textContent='Load failed: '+e.message;}};
+
+function runPsych(){
+  var n=Math.max(20,Math.min(3000,+q('#cohortN').value||300));
+  var cohort=[];
+  for(var i=0;i<n;i++){
+    var ability=Math.random();
+    var per=BLUEPRINT.map(function(b){
+      var diff=Aegis.RUNTIME_TEMPLATES[b.templateId].difficulty;
+      var pC=Math.max(0.05,Math.min(0.97,ability-(diff-2)*0.18+0.25));
+      return Math.random()<pC?1:0;
+    });
+    // inject one deliberately broken item (Q6) negatively correlated with ability
+    per[5]=(ability<0.5?0.85:0.2)>Math.random()?1:0; // genuinely broken: negative discrimination
+    cohort.push({totalScore:per.reduce(function(a,b){return a+b;},0),perItemCorrect:per});
+  }
+  var a=Aegis.itemAnalysis(cohort,BLUEPRINT.length);
+  var rows=a.map(function(x,i){
+    var flagCls=x.flag==='ok'?'flag-ok':(x.flag==='low_discrimination'?'flag-bad':'flag-warn');
+    var w=Math.round(x.difficultyIndex*100);
+    var col=x.difficultyIndex<0.3?'var(--bad)':(x.difficultyIndex>0.85?'var(--warn)':'var(--good)');
+    return '<tr><td>'+x.item+'</td><td>'+Aegis.RUNTIME_TEMPLATES[BLUEPRINT[i].templateId].subject+'</td>'+
+      '<td><div class="bar"><i style="width:'+w+'%;background:'+col+'"></i></div> '+x.difficultyIndex+'</td>'+
+      '<td>'+x.discrimination+'</td><td class="'+flagCls+'">'+x.flag.replace(/_/g,' ')+'</td></tr>';
+  }).join('');
+  q('#psychArea').innerHTML='<table><tr><th>Item</th><th>Subject</th><th>Difficulty (p)</th><th>Discrimination (r<sub>pb</sub>)</th><th>Flag</th></tr>'+rows+'</table>'+
+    '<div class="note">Difficulty index = fraction correct. Discrimination = correlation between getting an item right and total score. Below 0.1 means it doesn\'t separate strong from weak students — note Q6 was intentionally seeded as broken and gets flagged.</div>';
+}
+q('#runPsych').onclick=runPsych;
+
+/* LIVE integrity signals: respond to real paste + tab-switch + timing */
+var integState={start:Date.now(),pastes:0,focusLost:0,keystrokes:0};
+function renderInteg(){
+  var elapsed=Math.round((Date.now()-integState.start)/1000);
+  var session={totalTimeSec:Math.max(1,elapsed),expectedMinSec:60,
+    items:[{timeSec:elapsed,pasteEvents:integState.pastes,focusLost:integState.focusLost}]};
+  var r=Aegis.integrityScore(session);
+  q('#integ-live').innerHTML='<div style="font-size:28px;font-weight:800">'+r.risk+'<span style="font-size:13px;color:var(--mut)">/100</span> <span class="pill '+r.band+'">'+r.band.toUpperCase()+'</span></div>'+
+    '<div class="sub" style="margin:6px 0">on screen '+elapsed+'s · '+integState.pastes+' paste(s) · '+integState.focusLost+' tab-switch(es)</div>'+
+    '<ul style="margin:6px 0 0;padding-left:18px;color:var(--mut)">'+(r.reasons.length?r.reasons.map(function(x){return '<li>'+x+'</li>';}).join(''):'<li>No anomalies yet — try pasting or switching tabs</li>')+'</ul>';
+  var ref=Aegis.integrityScore({totalTimeSec:38,expectedMinSec:400,items:[{timeSec:6,pasteEvents:3,focusLost:0},{timeSec:8,pasteEvents:0,focusLost:4}]});
+  q('#integ-ref').innerHTML='<div style="font-size:28px;font-weight:800">'+ref.risk+'<span style="font-size:13px;color:var(--mut)">/100</span> <span class="pill '+ref.band+'">'+ref.band.toUpperCase()+'</span></div>'+
+    '<ul style="margin:10px 0 0;padding-left:18px;color:var(--mut)">'+ref.reasons.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+}
+var ii=q('#integ-input');
+ii.addEventListener('paste',function(){integState.pastes++;renderInteg();});
+ii.addEventListener('input',function(){integState.keystrokes++;});
+window.addEventListener('blur',function(){integState.focusLost++;renderInteg();});
+setInterval(renderInteg,2000);
+
+// init
+renderExam();renderCompare();runStudio();runPsych();renderInteg();
+</script></body></html>

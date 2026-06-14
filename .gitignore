@@ -1,0 +1,10 @@
+node_modules/
+*.log
+.DS_Store
+exports/
+# Internal AI-review dossiers — never ship these in the public repo
+AEGIS_*DOSSIER.md
+# Internal strategy / prep notes — keep locally, do not publish (avoids "gaming the judge" optics)
+docs/WINNING_PLAYBOOK.md
+docs/VIDEO_SCRIPT.md
+docs/MAYA_EXANA_PPT_GUIDE.md

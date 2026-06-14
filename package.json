@@ -1,0 +1,15 @@
+{
+  "name": "maya-exana",
+  "version": "0.7.0",
+  "description": "Maya-Exana — Fair exams, by design. Unique-paper generation, explainable grading, psychometrics, bulk export, and privacy-first integrity. FAR AWAY 2026, Examinations theme.",
+  "main": "src/engine.js",
+  "scripts": {
+    "demo": "node demo.js",
+    "export": "node export.js 50",
+    "test": "node tests/engine.test.js"
+  },
+  "keywords": ["examinations", "edtech", "psychometrics", "anti-cheating", "assessment", "faraway2026", "maya-exana"],
+  "author": "Lead Developer & Architect (solo build)",
+  "license": "MIT",
+  "private": true
+}
