@@ -1201,14 +1201,15 @@ document.getElementById('img-dl').onclick = async function(){
     await new Promise(r => setTimeout(r, 150)); // let layout settle
     
     var canvas = await html2canvas(slides[i], {
-      scale: 4, // 4x scale (3840x2480) provides excellent PDF quality without crashing
+      scale: 2, // 2x scale (1920x1240) for great quality and reasonable file size
       backgroundColor: '#F4F6FB',
       logging: false
     });
     
-    var imgData = canvas.toDataURL('image/png', 1.0);
+    // Use JPEG compression to keep the PDF size very small (e.g., 2MB instead of 500MB)
+    var imgData = canvas.toDataURL('image/jpeg', 0.9);
     if(i > 0) pdf.addPage([960, 620], 'landscape');
-    pdf.addImage(imgData, 'PNG', 0, 0, 960, 620);
+    pdf.addImage(imgData, 'JPEG', 0, 0, 960, 620);
     
     await new Promise(r => setTimeout(r, 50)); // prevent browser lock
   }
