@@ -9,7 +9,7 @@
 
 > ℹ️ *The badge URLs point to shields.io; once you push to GitHub and enable the CI workflow
 > in `.github/workflows/ci.yml`, swap the build badge for the live Actions badge:*
-> `![CI](https://github.com/<user>/maya-exana/actions/workflows/ci.yml/badge.svg)`
+> `![CI](https://github.com/tejuas98/maya-exana/actions/workflows/ci.yml/badge.svg)`
 
 Maya-Exana reimagines exam integrity around a contrarian thesis: the future of fair
 examinations is **not** more invasive AI proctoring (webcams, face-tracking, eye-gaze —
@@ -19,9 +19,8 @@ instantly and transparently, and giving examiners real psychometric insight.
 
 **It's a working engine, not a slide deck.** Open `index.html`, or run `node demo.js`.
 
-> 🔴 **Live demo:** open `index.html` (works fully offline, one click) — or host it free on GitHub Pages and put the link here: `https://<your-username>.github.io/maya-exana`.
-> ▶️ **3-minute video walkthrough:** `[PASTE VIDEO LINK HERE]`
-> ⚡ **Verify it's real:** `git clone … && cd maya-exana && node tests/engine.test.js` → **65/65 passing in < 1s, zero install**.
+> 🔴 **Live demo:** open `index.html` (works fully offline, one click) — or host it free on GitHub Pages and put the link here: `https://tejuas98.github.io/maya-exana`.
+> ⚡ **Verify it's real:** `git clone https://github.com/tejuas98/maya-exana.git && cd maya-exana && node tests/engine.test.js` → **65/65 passing in < 1s, zero install**.
 
 ## How it works (10-second overview)
 
